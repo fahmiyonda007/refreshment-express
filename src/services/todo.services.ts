@@ -5,13 +5,13 @@ import {
 } from 'typeorm'
 import { CreateTodoDto } from '../dtos/todos.dto'
 import { Todo } from '../entities/todos.entity'
-import { User } from '../entities/users.entity'
+import { Users } from '../entities/users.entity'
 import { AppDataSource } from '../utils/dataSource'
 
 export class TodoServices {
   private todoRepository = AppDataSource.getRepository(Todo)
 
-  async createTodo(input: CreateTodoDto, user: User) {
+  async createTodo(input: CreateTodoDto, user: Users) {
     const createdTodo = this.todoRepository.create({ ...input, user })
     return await this.todoRepository.save(createdTodo)
   }

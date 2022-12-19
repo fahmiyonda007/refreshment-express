@@ -9,6 +9,6 @@ export class Permissions extends Model {
   })
   name: string
 
-  @OneToMany(() => RolesPermissions, (x) => x.permissions)
+  @OneToMany(() => RolesPermissions, (x) => x.permission)
   rolesPermissions: RolesPermissions[]
 }

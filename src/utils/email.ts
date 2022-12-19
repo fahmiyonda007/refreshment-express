@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer'
-import { User } from '../entities/users.entity'
+import { Users } from '../entities/users.entity'
 import config from 'config'
 import pug from 'pug'
 import { convert } from 'html-to-text'
@@ -15,7 +15,7 @@ export default class Email {
   firstName: string
   to: string
   from: string
-  constructor(public user: User, public url: string) {
+  constructor(public user: Users, public url: string) {
     this.firstName = user.name.split(' ')[0]
     this.to = user.email
     this.from = `Test Email ${config.get<string>('emailFrom')}`

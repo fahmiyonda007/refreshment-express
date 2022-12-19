@@ -5,7 +5,7 @@ import { UserServices } from '../services/user.services'
 import AppError from '../utils/appError'
 import redisClient from '../utils/connectRedis'
 import { signJwt, verifyJwt } from '../utils/jwt'
-import { User } from '../entities/users.entity'
+import { Users } from '../entities/users.entity'
 import { UserSignInDto, UserSignUpDto } from '../dtos/auth.dto'
 import Email from '../utils/email'
 
@@ -49,7 +49,7 @@ export const registerUserHandler = async (
     })
 
     const { hashedVerificationCode, verificationCode } =
-      User.createVerificationCode()
+      Users.createVerificationCode()
     newUser.verificationCode = hashedVerificationCode
     await newUser.save()
 
@@ -106,7 +106,7 @@ export const loginUserHandler = async (
     }
 
     //3. Check if password is valid
-    if (!(await User.comparePasswords(password, user.password))) {
+    if (!(await Users.comparePasswords(password, user.password))) {
       return next(new AppError(400, 'Invalid email or password'))
     }
 

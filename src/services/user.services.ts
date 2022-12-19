@@ -1,12 +1,12 @@
 import config from 'config'
-import { User } from '../entities/users.entity'
+import { Users } from '../entities/users.entity'
 import { UserSignUpDto } from '../dtos/auth.dto'
 import { AppDataSource } from '../utils/dataSource'
 import redisClient from '../utils/connectRedis'
 import { signJwt } from '../utils/jwt'
 
 export class UserServices {
-  private userRepository = AppDataSource.getRepository(User)
+  private userRepository = AppDataSource.getRepository(Users)
 
   async createUser(input: UserSignUpDto) {
     const createdUser = this.userRepository.create(input)
@@ -25,7 +25,7 @@ export class UserServices {
     return await this.userRepository.findOneBy(query)
   }
 
-  async signTokens(user: User) {
+  async signTokens(user: Users) {
     // 1. Create Session
     redisClient.set(user.id, JSON.stringify(user), {
       EX: config.get<number>('redisCacheExpiresIn') * 60,
