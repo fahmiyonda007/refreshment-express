@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer'
-import { User } from '../entities/user.entity'
+import { User } from '../entities/users.entity'
 import config from 'config'
 import pug from 'pug'
 import { convert } from 'html-to-text'

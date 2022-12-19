@@ -5,7 +5,7 @@ import {
 } from 'typeorm'
 import { CreateTodoDto } from '../dtos/todos.dto'
 import { Todo } from '../entities/todos.entity'
-import { User } from '../entities/user.entity'
+import { User } from '../entities/users.entity'
 import { AppDataSource } from '../utils/dataSource'
 
 export class TodoServices {

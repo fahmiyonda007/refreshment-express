@@ -19,7 +19,7 @@ export class UserSignUpDto {
   @IsString()
   @MinLength(8)
   @MaxLength(20)
-  @Match('password', { message: "Passwword not match" })
+  @Match('password', { message: 'Passwword not match' })
   passwordConfirm?: string
 }
 

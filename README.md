@@ -7,4 +7,5 @@ Steps to run this project:
 3. Run `yarn start` command
 
 ##Dockerize
+
 1. Run `docker compose up -d` command

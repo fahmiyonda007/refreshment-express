@@ -5,7 +5,7 @@ import { UserServices } from '../services/user.services'
 import AppError from '../utils/appError'
 import redisClient from '../utils/connectRedis'
 import { signJwt, verifyJwt } from '../utils/jwt'
-import { User } from '../entities/user.entity'
+import { User } from '../entities/users.entity'
 import { UserSignInDto, UserSignUpDto } from '../dtos/auth.dto'
 import Email from '../utils/email'
 
