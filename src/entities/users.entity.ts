@@ -3,6 +3,7 @@ import Model from './model.entity'
 import bcrypt from 'bcryptjs'
 import crypto from 'crypto'
 import { Todo } from './todos.entity'
+import { UsersRoles } from './users_roles.entity'
 
 export enum RoleEnumType {
   USER = 'user',
@@ -10,7 +11,7 @@ export enum RoleEnumType {
 }
 
 @Entity('users')
-export class User extends Model {
+export class Users extends Model {
   @Column()
   name: string
 
@@ -47,8 +48,11 @@ export class User extends Model {
   })
   verificationCode!: string | null
 
-  @OneToMany(() => Todo, (todo) => todo.user)
+  @OneToMany(() => Todo, (x) => x.user)
   todos: Todo[]
+
+  @OneToMany(() => UsersRoles, (x) => x.user)
+  usersRoles: UsersRoles[]
 
   // Hash password before saving to database
   @BeforeInsert()
