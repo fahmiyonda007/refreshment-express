@@ -2,60 +2,61 @@ import express from 'express'
 import { deserializeUser } from '../middleware/deserializeUser'
 import { requireUser } from '../middleware/requireUser'
 import validate from '../middleware/dtoValidation'
-import { CreateDto, DeleteDto, UpdateDto } from '../dtos/roles.dto'
+import { CreateDto, UpdateDto } from '../dtos/userRoles.dto'
 import {
   createHandler,
   deleteHandler,
   getByIdHandler,
   getAllHandler,
   updateHandler,
-  getByNameHandler,
-} from '../controllers/role.controller'
+  getByUserHandler,
+} from '../controllers/userRole.controller'
 
 const router = express.Router()
 
 router.use(deserializeUser, requireUser)
 
 /**
- * POST /api/roles/create
+ * POST /api/user-roles/create
  * @summary create new role
- * @tags Roles
+ * @tags User - Roles
  * @param {object} request.body.required
  * @example request - example body
  * {
- *  "name": "administrator:general"
+ *  "user": "a913d21e-ed50-4765-916d-1083a400f71b",
+ *  "role": "b998a3d5-5d79-40bb-8137-00cafe71f5eb"
  * }
  */
 router.route('/create').post(createHandler, validate(CreateDto))
 
 /**
- * GET /api/roles/list
+ * GET /api/user-roles/list
  * @summary Get list roles
- * @tags Roles
+ * @tags User - Roles
  */
 router.route('/list').get(getAllHandler)
 
 /**
- * GET /api/roles/find/id/{id}
+ * GET /api/user-roles/find/id/{id}
  * @summary Get find role by id
- * @tags Roles
+ * @tags User - Roles
  * @param {string} id.path.required - ID
  */
 router.route('/find/id/:id').get(getByIdHandler)
 
 /**
- * GET /api/roles/find/name/{name}
- * @summary Get find role by name
- * @tags Roles
- * @param {string} name.path.required - Role Name
+ * GET /api/user-roles/find/user/{id}
+ * @summary Get find mapping by user ID
+ * @tags User - Roles
+ * @param {string} id.path.required - User ID
  */
-router.route('/find/name/:name').get(getByNameHandler)
+router.route('/find/user/:id').get(getByUserHandler)
 
 /**
- * PATCH /api/roles/update/{id}
- * @summary Update role by name
- * @tags Roles
- * @param {string} id.path.required -  ID
+ * PATCH /api/user-roles/update/{id}
+ * @summary Update role
+ * @tags User - Roles
+ * @param {string} id.path.required - ID
  * @param {object} request.body.required
  * @example request - example body - application/json
  * {
@@ -65,11 +66,11 @@ router.route('/find/name/:name').get(getByNameHandler)
 router.route('/update/:id').patch(validate(UpdateDto, true), updateHandler)
 
 /**
- * DELETE /api/roles/delete/{id}
- * @summary Update role by name
- * @tags Roles
+ * DELETE /api/user-roles/delete/{id}
+ * @summary Update role by name (?????)
+ * @tags User - Roles
  * @param {string} id.path.required -  ID
  */
-router.route('/delete/:id').delete(validate(DeleteDto, true), deleteHandler)
+router.route('/delete/:id').delete(deleteHandler)
 
 export default router

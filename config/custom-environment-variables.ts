@@ -1,5 +1,6 @@
 export default {
   port: 'PORT',
+  host: 'HOST',
   postgresConfig: {
     host: 'POSTGRES_HOST',
     port: 'POSTGRES_PORT',

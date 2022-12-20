@@ -8,18 +8,23 @@ import expressJSDocSwagger from 'express-jsdoc-swagger'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import { AppDataSource } from './utils/dataSource'
+import validateEnv from './utils/validateEnv'
+import redisClient from './utils/connectRedis'
 import AppError from './utils/appError'
 import authRouter from './routes/auth.routes'
 import userRouter from './routes/user.routes'
 import todoRouter from './routes/todo.routes'
 import roleRouter from './routes/role.routes'
-import validateEnv from './utils/validateEnv'
-import redisClient from './utils/connectRedis'
+import userRoleRouter from './routes/userRole.routes'
+import { options } from './swagger.options'
 
 AppDataSource.initialize()
   .then(async () => {
     // VALIDATE ENV
     validateEnv()
+
+    const port = config.get<number>('port')
+    const host = config.get<number>('host')
 
     const app = express()
 
@@ -46,50 +51,13 @@ AppDataSource.initialize()
       })
     )
 
-    const port = config.get<number>('port')
-
-    const options = {
-      info: {
-        version: '1.0.0',
-        title: 'REST API Refreshment-Express',
-        license: {
-          name: 'MIT',
-        },
-      },
-      security: {
-        BasicAuth: {
-          type: 'http',
-          scheme: 'basic',
-        },
-      },
-      // Base directory which we use to locate your JSDOC files
-      baseDir: __dirname,
-      // Glob pattern to find your jsdoc files (multiple patterns can be added in an array)
-      filesPattern: './**/*.ts',
-      // URL where SwaggerUI will be rendered
-      swaggerUIPath: '/docs',
-      // Expose OpenAPI UI
-      exposeSwaggerUI: true,
-      // Expose Open API JSON Docs documentation in `apiDocsPath` path.
-      exposeApiDocs: false,
-      // Open API JSON Docs endpoint.
-      apiDocsPath: '/v3/docs',
-      // Set non-required fields as nullable by default
-      notRequiredAsNullable: false,
-      // You can customize your UI options.
-      // you can extend swagger-ui-express config. You can checkout an example of this
-      // in the `example/configuration/swaggerOptions.js`
-      swaggerUiOptions: {},
-      // multiple option in case you want more that one instance
-      multiple: true,
-    }
-
     expressJSDocSwagger(app)(options)
 
     app.use('/api/auth', authRouter)
     app.use('/api/users', userRouter)
     app.use('/api/todos', todoRouter)
     app.use('/api/roles', roleRouter)
+    app.use('/api/user-roles', userRoleRouter)
 
     // HEALTH CHECKER
     app.get('/api/healthChecker', async (_, res: Response) => {
@@ -121,6 +89,8 @@ AppDataSource.initialize()
 
     // eslint-disable-next-line no-console
     console.log(`Server started on port: ${port}`)
+    // eslint-disable-next-line no-console
+    console.log(`API Docs started on : http://${host}:${port}${options.swaggerUIPath}`)
   })
   // eslint-disable-next-line no-console
   .catch((error) => console.log(error))

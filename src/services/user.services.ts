@@ -42,6 +42,22 @@ export class UserServices {
     })
   }
 
+  async findAllPagination(
+    where: FindOptionsWhere<Users> = {},
+    select: FindOptionsSelect<Users> = {},
+    relations: FindOptionsRelations<Users> = {},
+    take = 10,
+    skip = 0
+  ) {
+    return await this.userRepository.findAndCount({
+      where,
+      select,
+      relations,
+      take,
+      skip,
+    })
+  }
+
   async signTokens(user: Users) {
     // 1. Create Session
     redisClient.set(user.id, JSON.stringify(user), {

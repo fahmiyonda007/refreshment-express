@@ -1,6 +1,7 @@
 import { Entity, Column, OneToMany } from 'typeorm'
 import Model from './model.entity'
 import { RolesPermissions } from './roles_permissions.entity'
+import { Users } from './users.entity'
 import { UsersRoles } from './users_roles.entity'
 
 @Entity('roles')
@@ -14,5 +15,5 @@ export class Roles extends Model {
   rolesPermissions: RolesPermissions[]
 
   @OneToMany(() => UsersRoles, (x) => x.role)
-  usersRoles: RolesPermissions[]
+  usersRoles: UsersRoles[]
 }

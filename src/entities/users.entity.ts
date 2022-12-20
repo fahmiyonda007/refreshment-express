@@ -4,6 +4,7 @@ import bcrypt from 'bcryptjs'
 import crypto from 'crypto'
 import { Todo } from './todos.entity'
 import { UsersRoles } from './users_roles.entity'
+import { Roles } from './roles.entity'
 
 export enum RoleEnumType {
   USER = 'user',

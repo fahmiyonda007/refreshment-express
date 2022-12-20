@@ -18,7 +18,7 @@ const router = express.Router()
  * POST /api/auth/register
  * @summary create new user
  * @tags Auth
- * @param {object} request.body.required - Body raw
+ * @param {object} request.body.required
  * @example request - example body
  * {
  *  "name": "jhon doe",
@@ -35,7 +35,7 @@ router.post('/register', validate(UserSignUpDto), registerUserHandler)
 * @summary login user
 * @tags Auth
  * @return {object} 200 - Success response - application/json
-* @param {object} request.body.required - Body raw
+* @param {object} request.body.required
 * @example request - example body
 * {
 *  "email":"jhondoe@de.com",
@@ -55,7 +55,7 @@ router.post('/login', validate(UserSignInDto), loginUserHandler)
  * @summary logout user
  * @tags Auth
  * @return {object} 200 - Success response
- * @param {object} request.body.required - Body raw
+ * @param {object} request.body.required
  * @example response - 200 - example success response
  * {
  *  "status": "success"
