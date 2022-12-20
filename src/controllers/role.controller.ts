@@ -30,13 +30,36 @@ export const createHandler = async (
   }
 }
 
-export const getHandler = async (
+export const getByIdHandler = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
     const data = await myServices.getById(req.params.id)
+
+    if (!data) {
+      return next(new AppError(404, 'Role with that ID not found'))
+    }
+
+    res.status(200).json({
+      status: 'success',
+      data: {
+        data,
+      },
+    })
+  } catch (err: any) {
+    next(err)
+  }
+}
+
+export const getByNameHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const data = await myServices.getByName(req.params.name)
 
     if (!data) {
       return next(new AppError(404, 'Role with that ID not found'))
@@ -100,7 +123,7 @@ export const updateHandler = async (
 }
 
 export const deleteHandler = async (
-  req: Request<{ dataId: string }>,
+  req: Request<{ dataId: string }, object, DeleteDto>,
   res: Response,
   next: NextFunction
 ) => {

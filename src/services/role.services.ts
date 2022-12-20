@@ -19,6 +19,10 @@ export class RoleServices {
     return await this.myRepository.findOneBy({ id: id })
   }
 
+  async getByName(name: string) {
+    return await this.myRepository.findOneBy({ name: name })
+  }
+
   async findAll(
     where: FindOptionsWhere<Roles> = {},
     select: FindOptionsSelect<Roles> = {},

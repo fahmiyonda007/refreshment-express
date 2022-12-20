@@ -34,14 +34,14 @@ router.post('/register', validate(UserSignUpDto), registerUserHandler)
  * POST /api/auth/login
 * @summary login user
 * @tags Auth
- * @return {object} 200 - Success response
+ * @return {object} 200 - Success response - application/json
 * @param {object} request.body.required - Body raw
 * @example request - example body
 * {
 *  "email":"jhondoe@de.com",
 *  "password":"admin123"
 * }
-* @example response - 200 - example success response
+* @example response - 200 - example success response - application/json
 * {
 * "status": "success",
  * "access_token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzMzMzMmYwYi1hNDExLTQ0MWMtODY1ZS00NTE5NzU3NzJmNjEiLCJpYXQiOjE2NzE0NzgzNDEsImV4cCI6MTY3MTQ3OTI0MX0.S3Wpg3WkH5dblDcNYHWCqXxx7S22kr4ntmTknPzs_PFwxpe7dsFno4TGoeRdkB8tDVaP6EOVnjnAFSeQguaMcyVzfdpZznhSS9pjD_YebNgLSSmr3ZQqSPrxlxUTLCKb_wWWiKXQRa5KkBEEpz7Bx5h01tmho5yIC7tRTNK-MZ4"
@@ -68,8 +68,8 @@ router.get('/logout', deserializeUser, requireUser, logoutHandler)
  * GET /api/auth/refresh
  * @summary Refresh access token
  * @tags Auth
- * @return {object} 200 - Success response
- * @example response - 200 - example success response
+ * @return {object} 200 - Success response - application/json
+ * @example response - 200 - example success response - application/json
 * {
 * "status": "success",
  * "access_token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzMzMzMmYwYi1hNDExLTQ0MWMtODY1ZS00NTE5NzU3NzJmNjEiLCJpYXQiOjE2NzE0NzgzNDEsImV4cCI6MTY3MTQ3OTI0MX0.S3Wpg3WkH5dblDcNYHWCqXxx7S22kr4ntmTknPzs_PFwxpe7dsFno4TGoeRdkB8tDVaP6EOVnjnAFSeQguaMcyVzfdpZznhSS9pjD_YebNgLSSmr3ZQqSPrxlxUTLCKb_wWWiKXQRa5KkBEEpz7Bx5h01tmho5yIC7tRTNK-MZ4"
@@ -82,12 +82,12 @@ router.get('/refresh', refreshAccessTokenHandler)
  * GET /api/auth/verifyemail
  * @summary Verify Email Address
  * @tags Auth
- * @return {object} 200 - Success response
+ * @return {object} 200 - Success response - application/json
  * @param {string} verificationCode.query.required - Verification Code
- * @example response - 200 - example success response
-* {
-  * "status": "success",
-*}
+ * @example response - 200 - example success response - application/json
+ * {
+ * "status": "success",
+ *}
  */
 router.get('/verifyemail/:verificationCode', verifyEmailHandler)
 

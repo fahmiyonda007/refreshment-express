@@ -4,6 +4,11 @@ import { UserSignUpDto } from '../dtos/auth.dto'
 import { AppDataSource } from '../utils/dataSource'
 import redisClient from '../utils/connectRedis'
 import { signJwt } from '../utils/jwt'
+import {
+  FindOptionsRelations,
+  FindOptionsSelect,
+  FindOptionsWhere,
+} from 'typeorm'
 
 export class UserServices {
   private userRepository = AppDataSource.getRepository(Users)
@@ -23,6 +28,18 @@ export class UserServices {
 
   async findUser(query: object) {
     return await this.userRepository.findOneBy(query)
+  }
+
+  async findAll(
+    where: FindOptionsWhere<Users> = {},
+    select: FindOptionsSelect<Users> = {},
+    relations: FindOptionsRelations<Users> = {}
+  ) {
+    return await this.userRepository.find({
+      where,
+      select,
+      relations,
+    })
   }
 
   async signTokens(user: Users) {

@@ -4,8 +4,6 @@ require('dotenv').config()
 import express, { NextFunction, Request, Response } from 'express'
 import config from 'config'
 import morgan from 'morgan'
-import swaggerUi from 'swagger-ui-express'
-import swaggerJSDoc from 'swagger-jsdoc'
 import expressJSDocSwagger from 'express-jsdoc-swagger'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'

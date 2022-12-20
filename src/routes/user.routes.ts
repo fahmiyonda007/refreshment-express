@@ -1,6 +1,5 @@
 import express from 'express'
-import { getMeHandler } from '../controllers/user.controller'
-import { Users } from '../entities/users.entity'
+import { getMeHandler, getAllHandler } from '../controllers/user.controller'
 import { deserializeUser } from '../middleware/deserializeUser'
 import { requireUser } from '../middleware/requireUser'
 
@@ -13,9 +12,15 @@ router.use(deserializeUser, requireUser)
  * GET /api/users/me
  * @summary Get currently logged in user
  * @tags Users
- * @return {object} 200 - success response - application/json
- * @return {object} 400 - Bad request response
  */
 router.get('/me', getMeHandler)
+
+// Get user list
+/**
+ * GET /api/users/list
+ * @summary Get user list
+ * @tags Users
+ */
+router.get('/list', getAllHandler)
 
 export default router
