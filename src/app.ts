@@ -67,13 +67,13 @@ AppDataSource.initialize()
       // Glob pattern to find your jsdoc files (multiple patterns can be added in an array)
       filesPattern: './**/*.ts',
       // URL where SwaggerUI will be rendered
-      swaggerUIPath: '/api-docs',
+      swaggerUIPath: '/docs',
       // Expose OpenAPI UI
       exposeSwaggerUI: true,
       // Expose Open API JSON Docs documentation in `apiDocsPath` path.
       exposeApiDocs: false,
       // Open API JSON Docs endpoint.
-      apiDocsPath: '/v3/api-docs',
+      apiDocsPath: '/v3/docs',
       // Set non-required fields as nullable by default
       notRequiredAsNullable: false,
       // You can customize your UI options.
