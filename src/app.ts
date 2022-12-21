@@ -17,8 +17,8 @@ import todoRouter from './routes/todo.routes'
 import roleRouter from './routes/role.routes'
 import permissionRouter from './routes/permission.routes'
 import userRoleRouter from './routes/userRole.routes'
+import rolePermissionRouter from './routes/rolePermission.routes'
 import { options } from './utils/swagger.options'
-
 
 AppDataSource.initialize()
   .then(async () => {
@@ -61,6 +61,7 @@ AppDataSource.initialize()
     app.use('/api/roles', roleRouter)
     app.use('/api/permissions', permissionRouter)
     app.use('/api/user-roles', userRoleRouter)
+    app.use('/api/role-permissions', rolePermissionRouter)
 
     // HEALTH CHECKER
     app.get('/api/healthChecker', async (_, res: Response) => {

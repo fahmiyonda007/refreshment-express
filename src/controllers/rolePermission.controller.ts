@@ -1,13 +1,13 @@
 import { NextFunction, Request, Response } from 'express'
-import { CreateDto, UpdateDto } from '../dtos/userRoles.dto'
-import { UserRoleServices } from '../services/userRole.services'
-import { UserServices } from '../services/user.services'
+import { CreateDto, UpdateDto } from '../dtos/rolePermissions.dto'
+import { RolePermissionServices } from '../services/rolePermission.services'
 import { RoleServices } from '../services/role.services'
+import { PermissionServices } from '../services/permission.services'
 import AppError from '../utils/appError'
 import _ from 'lodash'
 
-const myServices = new UserRoleServices()
-const userServices = new UserServices()
+const myServices = new RolePermissionServices()
+const permissionServices = new PermissionServices()
 const roleServices = new RoleServices()
 
 export const createHandler = async (
@@ -16,23 +16,28 @@ export const createHandler = async (
   next: NextFunction
 ) => {
   try {
-    const user = await userServices.findUserById(req.body.user as string)
+    const permission = await permissionServices.getById(
+      req.body.permission as string
+    )
     const role = await roleServices.getById(req.body.role as string)
 
-    if (!user) {
-      return next(new AppError(404, 'User with that ID not found'))
+    if (!permission) {
+      return next(new AppError(404, 'Permission with that ID not found'))
     }
 
     if (!role) {
       return next(new AppError(404, 'Role with that ID not found'))
     }
 
-    const isExist = await myServices.getByUserAndRole(user.id, role.id)
+    const isExist = await myServices.getByPermissionAndRole(
+      permission.id,
+      role.id
+    )
     if (isExist) {
       return next(new AppError(409, 'already exist'))
     }
 
-    const data = await myServices.create(req.body, user, role)
+    const data = await myServices.create(req.body, permission, role)
 
     res.status(201).json({
       status: 'success',
@@ -55,8 +60,12 @@ export const getAllHandler = async (
   next: NextFunction
 ) => {
   try {
-    const datas = await myServices.findAll({}, {}, { user: true, role: true })
-    const result = _.groupBy(datas, (x) => x.user.name)
+    const datas = await myServices.findAll(
+      {},
+      {},
+      { permission: true, role: true }
+    )
+    const result = _.groupBy(datas, (x) => x.role.name)
 
     res.status(200).json({
       status: 'success',
@@ -76,17 +85,17 @@ export const getByRoleHandler = async (
     const datas = await myServices.findAll(
       { role: { id: req.params.id } },
       {},
-      { user: true, role: true }
+      { permission: true, role: true }
     )
 
     const role = await roleServices.getById(req.params.id)
-    const users = datas.map((x) => x.user)
+    const permissions = datas.map((x) => x.permission)
 
     res.status(200).json({
       status: 'success',
       data: {
-        roles: role,
-        user: users,
+        role: role,
+        permission: permissions,
       },
     })
   } catch (err: any) {
@@ -94,24 +103,24 @@ export const getByRoleHandler = async (
   }
 }
 
-export const getByUserHandler = async (
+export const getByPermissionHandler = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
     const datas = await myServices.findAll(
-      { user: { id: req.params.id } },
+      { permission: { id: req.params.id } },
       {},
-      { user: true, role: true }
+      { permission: true, role: true }
     )
 
-    const user = await userServices.findUserById(req.params.id)
+    const permission = await permissionServices.getById(req.params.id)
     const roles = datas.map((x) => x.role)
 
     res.status(200).json({
       status: 'success',
-      data: { user: user, roles: roles },
+      data: { permission: permission, roles: roles },
     })
   } catch (err: any) {
     next(err)

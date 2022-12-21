@@ -2,60 +2,60 @@ import express from 'express'
 import { deserializeUser } from '../middleware/deserializeUser'
 import { requireUser } from '../middleware/requireUser'
 import validate from '../middleware/dtoValidation'
-import { CreateDto, UpdateDto } from '../dtos/userRoles.dto'
+import { CreateDto, UpdateDto } from '../dtos/rolePermissions.dto'
 import {
   createHandler,
   deleteHandler,
   getAllHandler,
   updateHandler,
-  getByUserHandler,
+  getByPermissionHandler,
   getByRoleHandler,
-} from '../controllers/userRole.controller'
+} from '../controllers/rolePermission.controller'
 
 const router = express.Router()
 
 router.use(deserializeUser, requireUser)
 
 /**
- * POST /api/user-roles/create
+ * POST /api/role-permissions/create
  * @summary create new
- * @tags User - Roles
- * @param {object} request.body.required
+ * @tags Role - Permissions
+ * @param {object<CreateDto>} request.body.required
  * @example request - example body
  * {
- *  "user": "a913d21e-ed50-4765-916d-1083a400f71b",
- *  "role": "b998a3d5-5d79-40bb-8137-00cafe71f5eb"
+ *  "role": "b998a3d5-5d79-40bb-8137-00cafe71f5eb",
+ *  "permission": "a913d21e-ed50-4765-916d-1083a400f71b"
  * }
  */
 router.route('/create').post(createHandler, validate(CreateDto))
 
 /**
- * GET /api/user-roles/group/user
- * @summary Get list group by user
- * @tags User - Roles
+ * GET /api/role-permissions/group/role
+ * @summary Get list group by role
+ * @tags Role - Permissions
  */
-router.route('/group/user').get(getAllHandler)
+router.route('/group/role').get(getAllHandler)
 
 /**
- * GET /api/user-roles/find/role/{id}
+ * GET /api/role-permissions/find/role/{id}
  * @summary Get mapping by role id
- * @tags User - Roles
+ * @tags Role - Permissions
  * @param {string} id.path.required - Role ID
  */
 router.route('/find/role/:id').get(getByRoleHandler)
 
 /**
- * GET /api/user-roles/find/user/{id}
- * @summary Get mapping by user id
- * @tags User - Roles
+ * GET /api/role-permissions/find/permission/{id}
+ * @summary Get mapping by permission id
+ * @tags Role - Permissions
  * @param {string} id.path.required - User ID
  */
-router.route('/find/user/:id').get(getByUserHandler)
+router.route('/find/permission/:id').get(getByPermissionHandler)
 
 /**
- * PATCH /api/user-roles/update/{id}
+ * PATCH /api/role-permissions/update/{id}
  * @summary Update (?????)
- * @tags User - Roles
+ * @tags Role - Permissions
  * @param {string} id.path.required - ID
  * @param {object} request.body.required
  * @example request - example body - application/json
@@ -66,9 +66,9 @@ router.route('/find/user/:id').get(getByUserHandler)
 router.route('/update/:id').patch(validate(UpdateDto, true), updateHandler)
 
 /**
- * DELETE /api/user-roles/delete/{id}
+ * DELETE /api/role-permissions/delete/{id}
  * @summary Delete (?????)
- * @tags User - Roles
+ * @tags Role - Permissions
  * @param {string} id.path.required -  ID
  */
 router.route('/delete/:id').delete(deleteHandler)
