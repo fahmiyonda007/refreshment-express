@@ -64,7 +64,12 @@ AppDataSource.initialize()
     app.use('/api/role-permissions', rolePermissionRouter)
 
     // HEALTH CHECKER
-    app.get('/api/healthChecker', async (_, res: Response) => {
+    /**
+     * GET /api/healthchecker
+     * @summary healthchecker (Redis Client)
+     * @tags *Health Checker
+     */
+    app.get('/api/healthchecker', async (_, res: Response) => {
       const message = await redisClient.get('try')
 
       res.status(200).json({
