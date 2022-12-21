@@ -60,9 +60,7 @@ export const getAllHandler = async (
 
     res.status(200).json({
       status: 'success',
-      data: {
-        datas,
-      },
+      data: datas,
       meta: {
         total: count,
         limit,

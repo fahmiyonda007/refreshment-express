@@ -36,9 +36,7 @@ export const createHandler = async (
 
     res.status(201).json({
       status: 'success',
-      data: {
-        data,
-      },
+      data: data,
     })
   } catch (err: any) {
     if (err.code === '23505') {
