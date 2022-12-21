@@ -4,12 +4,6 @@ import bcrypt from 'bcryptjs'
 import crypto from 'crypto'
 import { Todo } from './todos.entity'
 import { UsersRoles } from './users_roles.entity'
-import { Roles } from './roles.entity'
-
-export enum RoleEnumType {
-  USER = 'user',
-  ADMIN = 'admin',
-}
 
 @Entity('users')
 export class Users extends Model {
@@ -24,13 +18,6 @@ export class Users extends Model {
 
   @Column()
   password: string
-
-  @Column({
-    type: 'enum',
-    enum: RoleEnumType,
-    default: RoleEnumType.USER,
-  })
-  role: RoleEnumType.USER
 
   @Column({
     default: 'default.png',

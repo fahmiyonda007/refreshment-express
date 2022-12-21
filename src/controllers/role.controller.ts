@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express'
-import { CreateDto, DeleteDto, UpdateDto } from '../dtos/roles.dto'
+import { CreateDto, UpdateDto } from '../dtos/roles.dto'
 import { RoleServices } from '../services/role.services'
 import AppError from '../utils/appError'
 
@@ -123,7 +123,7 @@ export const updateHandler = async (
 }
 
 export const deleteHandler = async (
-  req: Request<{ dataId: string }, object, DeleteDto>,
+  req: Request<{ dataId: string }, object, object>,
   res: Response,
   next: NextFunction
 ) => {
@@ -134,7 +134,6 @@ export const deleteHandler = async (
       return next(new AppError(404, 'Role with that ID not found'))
     }
 
-    // const deletedData = req.params.dataId
     const deletedData = await data.remove()
 
     res.status(200).json({

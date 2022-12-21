@@ -2,7 +2,7 @@ import express from 'express'
 import { deserializeUser } from '../middleware/deserializeUser'
 import { requireUser } from '../middleware/requireUser'
 import validate from '../middleware/dtoValidation'
-import { CreateDto, DeleteDto, UpdateDto } from '../dtos/roles.dto'
+import { CreateDto, UpdateDto } from '../dtos/roles.dto'
 import {
   createHandler,
   deleteHandler,
@@ -37,7 +37,7 @@ router.route('/list').get(getAllHandler)
 
 /**
  * GET /api/roles/find/id/{id}
- * @summary Get find role by id
+ * @summary Get role by id
  * @tags Roles
  * @param {string} id.path.required - ID
  */
@@ -45,7 +45,7 @@ router.route('/find/id/:id').get(getByIdHandler)
 
 /**
  * GET /api/roles/find/name/{name}
- * @summary Get find role by name
+ * @summary Get role by name
  * @tags Roles
  * @param {string} name.path.required - Role Name
  */
@@ -53,9 +53,9 @@ router.route('/find/name/:name').get(getByNameHandler)
 
 /**
  * PATCH /api/roles/update/{id}
- * @summary Update role by name
+ * @summary Update role
  * @tags Roles
- * @param {string} id.path.required -  ID
+ * @param {string} id.path.required -  Role ID
  * @param {object} request.body.required
  * @example request - example body - application/json
  * {
@@ -66,10 +66,10 @@ router.route('/update/:id').patch(validate(UpdateDto, true), updateHandler)
 
 /**
  * DELETE /api/roles/delete/{id}
- * @summary Update role by name
+ * @summary delete role
  * @tags Roles
  * @param {string} id.path.required -  ID
  */
-router.route('/delete/:id').delete(validate(DeleteDto, true), deleteHandler)
+router.route('/delete/:id').delete(deleteHandler)
 
 export default router

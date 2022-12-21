@@ -9,12 +9,9 @@ export class CreateDto {
 
 export class UpdateDto {
   @IsString()
-  @Trim()
-  name: string
-}
+  id: string
 
-export class DeleteDto {
   @IsString()
   @Trim()
-  id: string
+  name: string
 }

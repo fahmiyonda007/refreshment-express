@@ -1,12 +1,10 @@
 import { NextFunction, Request, Response } from 'express'
-import { CreateDto, DeleteDto, UpdateDto } from '../dtos/userRoles.dto'
+import { CreateDto, UpdateDto } from '../dtos/userRoles.dto'
 import { UserRoleServices } from '../services/userRole.services'
 import { UserServices } from '../services/user.services'
 import { RoleServices } from '../services/role.services'
 import AppError from '../utils/appError'
-import { UsersRoles } from '../entities/users_roles.entity'
-import { Users } from '../entities/users.entity'
-import { Roles } from '../entities/roles.entity'
+import _ from 'lodash'
 
 const myServices = new UserRoleServices()
 const userServices = new UserServices()
@@ -31,7 +29,7 @@ export const createHandler = async (
 
     const isExist = await myServices.getByUserAndRole(user.id, role.id)
     if (isExist) {
-      return next(new AppError(404, 'Data is exist'))
+      return next(new AppError(409, 'already exist'))
     }
 
     const data = await myServices.create(req.body, user, role)
@@ -53,29 +51,6 @@ export const createHandler = async (
   }
 }
 
-export const getByIdHandler = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const data = await myServices.getById(req.params.id)
-
-    if (!data) {
-      return next(new AppError(404, 'Role with that ID not found'))
-    }
-
-    res.status(200).json({
-      status: 'success',
-      data: {
-        data,
-      },
-    })
-  } catch (err: any) {
-    next(err)
-  }
-}
-
 export const getAllHandler = async (
   req: Request,
   res: Response,
@@ -83,11 +58,37 @@ export const getAllHandler = async (
 ) => {
   try {
     const datas = await myServices.findAll({}, {}, { user: true, role: true })
+    const result = _.groupBy(datas, (x) => x.user.name)
+
+    res.status(200).json({
+      status: 'success',
+      data: result,
+    })
+  } catch (err: any) {
+    next(err)
+  }
+}
+
+export const getByRoleHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const datas = await myServices.findAll(
+      { role: { id: req.params.id } },
+      {},
+      { user: true, role: true }
+    )
+
+    const role = await roleServices.getById(req.params.id)
+    const users = datas.map((x) => x.user)
 
     res.status(200).json({
       status: 'success',
       data: {
-        datas,
+        roles: role,
+        user: users,
       },
     })
   } catch (err: any) {
@@ -101,17 +102,18 @@ export const getByUserHandler = async (
   next: NextFunction
 ) => {
   try {
-    const datas = await myServices.findAll({ user: { id: req.params.id } }, {}, { user: true, role: true })
+    const datas = await myServices.findAll(
+      { user: { id: req.params.id } },
+      {},
+      { user: true, role: true }
+    )
 
     const user = await userServices.findUserById(req.params.id)
-    const roles = datas.map(x => x.role)
-    const result = { user: user, roles: roles }
+    const roles = datas.map((x) => x.role)
 
     res.status(200).json({
       status: 'success',
-      data: {
-        result
-      },
+      data: { user: user, roles: roles },
     })
   } catch (err: any) {
     next(err)
@@ -147,25 +149,21 @@ export const updateHandler = async (
 }
 
 export const deleteHandler = async (
-  req: Request<{ dataId: string }, object, DeleteDto>,
+  req: Request<{ id: string }, object, object>,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const data = await myServices.getById(req.params.dataId)
+    const data = await myServices.getById(req.params.id)
 
     if (!data) {
-      return next(new AppError(404, 'Role with that ID not found'))
+      return next(new AppError(404, 'Data with that ID not found'))
     }
 
-    // const deletedData = req.params.dataId
-    const deletedData = await data.remove()
+    await data.remove()
 
     res.status(200).json({
       status: 'success',
-      data: {
-        data: deletedData,
-      },
     })
   } catch (err: any) {
     next(err)

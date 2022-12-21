@@ -16,7 +16,7 @@ import userRouter from './routes/user.routes'
 import todoRouter from './routes/todo.routes'
 import roleRouter from './routes/role.routes'
 import userRoleRouter from './routes/userRole.routes'
-import { options } from './swagger.options'
+import { options } from './utils/swagger.options'
 
 AppDataSource.initialize()
   .then(async () => {
@@ -90,7 +90,9 @@ AppDataSource.initialize()
     // eslint-disable-next-line no-console
     console.log(`Server started on port: ${port}`)
     // eslint-disable-next-line no-console
-    console.log(`API Docs started on : http://${host}:${port}${options.swaggerUIPath}`)
+    console.log(
+      `API Docs started on : http://${host}:${port}${options.swaggerUIPath}`
+    )
   })
   // eslint-disable-next-line no-console
   .catch((error) => console.log(error))

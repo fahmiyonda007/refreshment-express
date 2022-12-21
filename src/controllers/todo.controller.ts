@@ -14,8 +14,10 @@ export const createTodoHandler = async (
 ) => {
   try {
     const user = await userServices.findUserById(res.locals.user.id as string)
-
-    const todo = await todoServices.createTodo(req.body, user!)
+    if (!user) {
+      return next(new AppError(404, 'User with that ID not found'))
+    }
+    const todo = await todoServices.createTodo(req.body, user)
 
     res.status(201).json({
       status: 'success',

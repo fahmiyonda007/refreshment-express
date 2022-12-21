@@ -6,10 +6,10 @@ import { CreateDto, UpdateDto } from '../dtos/userRoles.dto'
 import {
   createHandler,
   deleteHandler,
-  getByIdHandler,
   getAllHandler,
   updateHandler,
   getByUserHandler,
+  getByRoleHandler,
 } from '../controllers/userRole.controller'
 
 const router = express.Router()
@@ -30,23 +30,23 @@ router.use(deserializeUser, requireUser)
 router.route('/create').post(createHandler, validate(CreateDto))
 
 /**
- * GET /api/user-roles/list
- * @summary Get list roles
+ * GET /api/user-roles/list-group/user
+ * @summary Get list group by user
  * @tags User - Roles
  */
-router.route('/list').get(getAllHandler)
+router.route('/list-group/user').get(getAllHandler)
 
 /**
- * GET /api/user-roles/find/id/{id}
- * @summary Get find role by id
+ * GET /api/user-roles/find/role/{id}
+ * @summary Get mapping by role id
  * @tags User - Roles
- * @param {string} id.path.required - ID
+ * @param {string} id.path.required - Role ID
  */
-router.route('/find/id/:id').get(getByIdHandler)
+router.route('/find/role/:id').get(getByRoleHandler)
 
 /**
  * GET /api/user-roles/find/user/{id}
- * @summary Get find mapping by user ID
+ * @summary Get mapping by user id
  * @tags User - Roles
  * @param {string} id.path.required - User ID
  */

@@ -22,12 +22,10 @@ export class UserRoleServices {
   }
 
   async getByUserAndRole(user: string, role: string) {
-    return await this.myRepository.findOne({ where: { user: { id: user }, role: { id: role } } })
+    return await this.myRepository.findOne({
+      where: { user: { id: user }, role: { id: role } },
+    })
   }
-
-  // async getByUser(userId: Users) {
-  //   return await this.myRepository.findOneBy({ user: userId })
-  // }
 
   async findAll(
     where: FindOptionsWhere<UsersRoles> = {},

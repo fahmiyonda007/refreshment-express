@@ -1,5 +1,4 @@
 import { IsString } from 'class-validator'
-import { Trim } from 'class-sanitizer'
 
 export class CreateDto {
   @IsString()
@@ -10,14 +9,6 @@ export class CreateDto {
 }
 
 export class UpdateDto {
-  @IsString()
-  role: string
-
-  @IsString()
-  user: string
-}
-
-export class DeleteDto {
   @IsString()
   role: string
 
