@@ -16,6 +16,7 @@ const postgresConfig = config.get<{
 export const AppDataSource = new DataSource({
   ...postgresConfig,
   type: 'postgres',
+  // untuk sync ke db/tabel langsung
   synchronize: false,
   logging: false,
   entities: ['src/entities/**/*.entity{.ts,.js}'],
