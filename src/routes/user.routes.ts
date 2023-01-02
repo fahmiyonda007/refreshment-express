@@ -20,8 +20,9 @@ router.get('/me', getMeHandler)
  * GET /api/users/list
  * @tags Users
  * @summary Get user list - pagination
- * @param {number<PaginationDto>} limit.query -  Limit
- * @param {number<PaginationDto>} offset.query -  Offset
+ * @param {number} limit.query -  Limit
+ * @param {number} offset.query -  Offset
+ * @param {string} filter.query -  Offset
  */
 router.get('/list', getAllHandler)
 

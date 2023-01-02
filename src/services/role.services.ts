@@ -26,12 +26,16 @@ export class RoleServices {
   async findAll(
     where: FindOptionsWhere<Roles> = {},
     select: FindOptionsSelect<Roles> = {},
-    relations: FindOptionsRelations<Roles> = {}
+    relations: FindOptionsRelations<Roles> = {},
+    take = 10,
+    skip = 0
   ) {
-    return await this.myRepository.find({
+    return await this.myRepository.findAndCount({
       where,
       select,
       relations,
+      take,
+      skip,
     })
   }
 }

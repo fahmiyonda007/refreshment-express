@@ -3,7 +3,7 @@ import { UserServices } from '../services/user.services'
 import AppError from '../utils/appError'
 import config from 'config'
 import { UserRoleServices } from '../services/userRole.services'
-import { PaginationDto } from '../dtos/pagination.dto'
+import { Like } from 'typeorm'
 
 const myServices = new UserServices()
 const userRoleServices = new UserRoleServices()
@@ -38,20 +38,21 @@ export const getMeHandler = async (
 }
 
 export const getAllHandler = async (
-  req: Request<object, object, object, PaginationDto>,
+  req: Request<object, object, object, any>,
   res: Response,
   next: NextFunction
 ) => {
   try {
     const limit = !req.query.limit ? 10 : req.query.limit
     const offset = !req.query.offset ? 0 : req.query.offset
+    const filterByName = !req.query.filter ? '' : req.query.filter
 
     if (limit - offset > maxLimit) {
       return next(new AppError(413, 'To many data request max 500'))
     }
 
     const [datas, count] = await myServices.findAllPagination(
-      {},
+      filterByName&&{name:Like(`%${filterByName}%`)},
       {},
       {},
       limit,
